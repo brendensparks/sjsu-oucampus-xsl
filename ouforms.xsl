@@ -136,8 +136,8 @@
 								<xsl:choose>
 									<xsl:when test="not(contains($adv,'dataset'))">
 										<xsl:for-each select="./options/option">
-											<label class="radio">
-											<input type="radio" name="{$field_name}" value="{./@value}">
+											<label class="radio" for="{$field_name}_{./@value}">
+											<input type="radio" name="{$field_name}_{./@value}" value="{./@value}">
 												<xsl:if test="./@selected = 'true'">									
 													<xsl:attribute name="checked">checked</xsl:attribute>
 												</xsl:if>
@@ -148,8 +148,8 @@
 									</xsl:when>
 									<xsl:otherwise>
 										<xsl:for-each select="tokenize(ou:create-dataset($adv), ',')" >
-											<label class="radio">
-											<input type="radio" name="{$field_name}" value="{.}">
+											<label class="radio" for="{$field_name}_{.}">
+											<input type="radio" name="{$field_name}_{.}" value="{.}">
 											</input><xsl:copy-of select="."/></label>
 										</xsl:for-each>	
 									</xsl:otherwise>
@@ -179,8 +179,8 @@
 								<xsl:choose>
 									<xsl:when test="not(contains($adv,'dataset'))">
 										<xsl:for-each select="./options/option">
-											<label class="checkbox">
-											<input type="checkbox" name="{$field_name}" value="{./@value}" >
+											<label class="checkbox" for="{$field_name}_{./@value}">
+											<input type="checkbox" name="{$field_name}_{./@value}" value="{./@value}" >
 												<xsl:if test="./@selected = 'true'">									
 													<xsl:attribute name="checked">checked</xsl:attribute>
 												</xsl:if>
@@ -191,8 +191,8 @@
 									</xsl:when>
 									<xsl:otherwise>
 										<xsl:for-each select="tokenize(ou:create-dataset($adv), ',')" >
-											<label class="checkbox">
-											<input type="checkbox" name="{$field_name}" value="{.}">
+											<label class="checkbox" for="{$field_name}_{.}">
+											<input type="checkbox" name="{$field_name}_{.}" value="{.}">
 											</input>
 												<xsl:copy-of select="."/></label>
 										</xsl:for-each>	
@@ -349,6 +349,14 @@
         
         
     </xsl:template>
+		
+<xsl:function name="ou:forms-js">		
+	<script type="text/javascript" src="/sjsuhome/assets/js/ouforms.js"></script>			
+</xsl:function>
+		
+<xsl:function name="ou:forms-css">
+	<link rel="stylesheet" href="/sjsuhome/css/ouforms-bootstrap.css"/>
+</xsl:function>		
 
 <xsl:function name="ou:get-adv">
 	<xsl:param name="adv"/>
