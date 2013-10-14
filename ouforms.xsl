@@ -29,7 +29,7 @@
 			<xsl:call-template name="ouform_poll"/>
 		</xsl:when>
 		<xsl:otherwise>
-			<form id="form" name="contact-form" method="post" class="ldpforms">
+			<form id="form" name="contact-form" method="post" class="ldp--forms">
 				
 				<xsl:for-each select="elements">
 				
@@ -309,10 +309,10 @@
 
 <xsl:template name="ouform_poll">
     <xsl:variable name="uuid" select="//ouform/@uuid"/>
-	<div class="ldp-poll-container clearfix">
-            <div class="ldp-poll-form">
+	<div class="ldp--poll-container clearfix">
+            <div class="ldp--poll-form">
                 
-                <form id="ldp-poll" name="ldp-poll" method="post" class="ldpforms">
+                <form id="ldp-poll" name="ldp-poll" method="post" class="ldp--forms">
                     <xsl:for-each select="//ouform/elements/element">
                          <xsl:if test="./@type = 'input-radio'">
                             
@@ -342,21 +342,13 @@
 					<p><a href="#" class="results" >View Results</a></p>
                 </xsl:if>
             </div>
-            <div class="ldp-poll-results">
+            <div class="ldp--poll-results">
                 
             </div>
         </div>     
         
         
     </xsl:template>
-		
-<xsl:function name="ou:forms-js">		
-	<script type="text/javascript" src="/sjsuhome/assets/js/ouforms.js"></script>			
-</xsl:function>
-		
-<xsl:function name="ou:forms-css">
-	<link rel="stylesheet" href="/sjsuhome/css/ouforms-bootstrap.css"/>
-</xsl:function>		
 
 <xsl:function name="ou:get-adv">
 	<xsl:param name="adv"/>
