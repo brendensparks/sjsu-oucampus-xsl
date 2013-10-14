@@ -95,20 +95,29 @@ exclude-result-prefixes="ou xsl xs">
 		</xsl:if>
 
 		<xsl:if test="//ouform">
+
 			<link rel="stylesheet" href="/sjsuhome/assets/css/ou--bootstrap.css" media="screen" />
-			<link rel="stylesheet" href="/sjsuhome/assets/css/ou--ldp--forms.css" media="screen" />
+
+			<xsl:variable name="addPollCSS">
+				<xsl:for-each select="//ouform/elements/element">
+					<xsl:if test="./@type = 'input-radio'">
+						<xsl:if test="(contains(./advanced/node(),'type=poll'))">yes</xsl:if>
+					</xsl:if>
+				</xsl:for-each>		
+			</xsl:variable>
+
+			<xsl:choose>
+				<xsl:when test="$addPollCSS='yes'">
+					<link rel="stylesheet" href="/sjsuhome/assets/css/ou--ldp--polls.css" media="screen" />
+				</xsl:when>	
+				<xsl:otherwise>
+					<link rel="stylesheet" href="/sjsuhome/assets/css/ou--ldp--forms.css" media="screen" />
+				</xsl:otherwise>
+			</xsl:choose>	
+
 		</xsl:if>
 
-		<xsl:variable name="addPollCSS">
-			<xsl:for-each select="//ouform/elements/element">
-				<xsl:if test="./@type = 'input-radio'">
-					<xsl:if test="(contains(./advanced/node(),'type=poll'))">yes</xsl:if>
-				</xsl:if>
-			</xsl:for-each>		
-		</xsl:variable>
-		<xsl:if test="$addPollCSS='yes'">
-			<link rel="stylesheet" href="/sjsuhome/assets/css/ou--ldp--polls.css" media="screen" />
-		</xsl:if>	
+
 		<!-- End LDP  CSS -->
 
 		<!-- OTHER INCLUDE -->
