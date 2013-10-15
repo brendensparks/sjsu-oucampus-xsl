@@ -3,6 +3,7 @@
 <xsl:stylesheet version="2.0" 
 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+
 xmlns:ou="http://omniupdate.com/XSL/Variables"
 xmlns:ouc="http://omniupdate.com/XSL/Variables"
 exclude-result-prefixes="ou xsl xs">
@@ -80,6 +81,45 @@ exclude-result-prefixes="ou xsl xs">
 			<xsl:comment> /com.omniupdate.div </xsl:comment>
 		</xsl:if>
 		<!-- End Virtual CSS Includes -->
+		<!-- Begin LDP  CSS -->			
+		<xsl:variable name="galleryExists">
+			<xsl:choose>
+				<xsl:when test="//gallery">1</xsl:when> 
+				<xsl:otherwise>0</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+
+		<xsl:if test="$galleryExists = 1">
+			<link rel="stylesheet" href="/sjsuhome/assets/css/colorbox.css" media="screen" />
+			<link rel="stylesheet" href="/sjsuhome/assets/css/ou--ldp--gallery.css" media="screen" />			
+		</xsl:if>
+
+		<xsl:if test="//ouform">
+
+			<link rel="stylesheet" href="/sjsuhome/assets/css/ou--bootstrap.css" media="screen" />
+
+			<xsl:variable name="addPollCSS">
+				<xsl:for-each select="//ouform/elements/element">
+					<xsl:if test="./@type = 'input-radio'">
+						<xsl:if test="(contains(./advanced/node(),'type=poll'))">yes</xsl:if>
+					</xsl:if>
+				</xsl:for-each>		
+			</xsl:variable>
+
+			<xsl:choose>
+				<xsl:when test="$addPollCSS='yes'">
+					<link rel="stylesheet" href="/sjsuhome/assets/css/ou--ldp--polls.css" media="screen" />
+				</xsl:when>	
+				<xsl:otherwise>
+					<link rel="stylesheet" href="/sjsuhome/assets/css/ou--ldp--forms.css" media="screen" />
+				</xsl:otherwise>
+			</xsl:choose>	
+
+		</xsl:if>
+
+
+		<!-- End LDP  CSS -->
+
 		<!-- OTHER INCLUDE -->
 		<xsl:if test="($ou:externalinc != '')">
 			<xsl:choose>
@@ -97,6 +137,7 @@ exclude-result-prefixes="ou xsl xs">
 			</xsl:choose>
 		</xsl:if>
 		<!-- /OTHER INCLUDE -->
+
 		<!-- headcode -->
 		<xsl:copy-of select="document/headcode/node()" />		
 	</xsl:template>
@@ -274,21 +315,19 @@ Builds the top Navigation based on the folders in the root of the site whose ind
         </xsl:if>
         <!-- End Virtual Quick Links Include -->		
 	</xsl:template>	
-
 	
-	<!--
-If the page isn't at the root level, it displays the contents of 'sidenav.inc' from one level higher. If there are child pages,
-it displays the contents of 'sidenav.inc from its current directory
+<!--
+If the page isn't at the root level, it displays the contents of 'sidenav.inc' from one level higher.
+If there are child pages, it displays the contents of 'sidenav.inc from its current directory
 -->
 	<xsl:template name="secondarynavigation">
 		<xsl:choose>
-
-			<xsl:when test="(document/config/parameter[@name='pagetype'] = 'subhome')">
+			<xsl:when test="document/config/parameter[@name='pagetype'] = 'subhome'">
 				<nav class="secnav_subsite" role="navigation">
 					<xsl:if test="(document/config/parameter[@name='quicklinks']/option[@value='show']/@selected = 'true')">
 						<div id="quicklinks">
 							<h2 class="quicklinkTitle">Quick Links</h2>
-							<xsl:copy-of select="document/maincontent/quicklinks/node()" />
+							<xsl:apply-templates select="document/maincontent/quicklinks/node()" mode="copy" />
 						</div>
 					</xsl:if>	
 					<div class="contact-info">
@@ -348,8 +387,7 @@ it displays the contents of 'sidenav.inc from its current directory
 				<xsl:call-template name="siteindex" />	    				
 			</xsl:when>							
 			<xsl:when test="(document/config/parameter[@name='pagetype'] = 'news')">		
-				<script src="http://www.google.com/jsapi?key=ABQIAAAAeqmXqXocwWEAMdOhU8DYjhSM2vXT2j2xHE_iOcqCbZQaOoosvRQNgEtu-7RQkfQtj1iaY3J7DBonyw" type="text/javascript"><!-- &nbsp; --></script>
-				
+				<script src="http://www.google.com/jsapi?key=ABQIAAAAeqmXqXocwWEAMdOhU8DYjhSM2vXT2j2xHE_iOcqCbZQaOoosvRQNgEtu-7RQkfQtj1iaY3J7DBonyw" type="text/javascript"><!-- &nbsp; --></script>				
 				<script type="text/javascript">
 				        google.load("feeds", "1");
 				        function OnLoad() {
@@ -369,6 +407,7 @@ it displays the contents of 'sidenav.inc from its current directory
 
 	<!-- Scripts called at the end of each page just prior to the </body>  -->
 	<xsl:template name="scripts">
+		<xsl:variable name="uuid" select="//ouform/@uuid"/>
 		<!-- Begin Virtual Javascript Includes -->
 		<xsl:if test="$ou:action = 'prv' or $ou:action = 'edt'">
 			<xsl:value-of select="unparsed-text('http://www.sjsu.edu/sjsuhome/includes/js-bottom.inc', 'utf-8')" disable-output-escaping="yes"/>
@@ -385,9 +424,149 @@ it displays the contents of 'sidenav.inc from its current directory
 					<xsl:comment>#include virtual="/sjsuhome/includes/js-bottom.inc" </xsl:comment>
 					<xsl:comment> /com.omniupdate.div </xsl:comment>
 				</xsl:otherwise>
-			</xsl:choose>	
+			</xsl:choose>
 		</xsl:if>
 		<!-- End Virtual Javascript Includes -->
+		<!-- Begin LDP JS -->
+		<xsl:variable name="galleryExists">
+			<xsl:choose>
+				<xsl:when test="//gallery">1</xsl:when> 
+				<xsl:otherwise>0</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+
+		<xsl:if test="$galleryExists = 1">
+			<script src="/sjsuhome/assets/js/jquery.colorbox-min.js"></script>
+			<script>
+				jQuery(document).ready(function () {
+					jQuery('.colorboxSlide').colorbox({ opacity:0.5 , rel:'photoGallery' });
+				});
+			</script>
+		</xsl:if>
+	
+		<xsl:if test="//ouform">
+			<script src="/sjsuhome/assets/js/ou-forms.js" ></script>
+		</xsl:if>
+		<xsl:variable name="addPollJS">
+			<xsl:for-each select="//ouform/elements/element">
+				<xsl:if test="./@type = 'input-radio'">
+					<xsl:if test="(contains(./advanced/node(),'type=poll'))">true</xsl:if>
+				</xsl:if>
+			</xsl:for-each>		
+		</xsl:variable>
+		<xsl:if test="$addPollJS='true'">
+		<script type="text/javascript" charset="utf-8">
+            var poll="true";
+            var form_id="<xsl:value-of select="//ouform/@uuid"/>";
+            
+            var names="";
+            $('#ldp-poll input:radio').each(function(data){
+            names=$(this).val()+":"+$(this).attr('title')+","+names;
+            });
+            var ajax_data="uuid="+form_id+"&amp;response=html"+"&amp;names="+ encodeURIComponent(names); 
+            
+            function animateResults(){
+            $(".ldp--poll-results div").each(function(){
+            var percentage = $(this).next().text();
+            $(this).css({width: "0%"}).animate({width: percentage}, 'slow');});
+            }
+            function get_results(){
+            $('.ldp--poll-results').html("");
+            $('.ldp--poll-form').fadeOut(5);
+            $('.ldp--poll-results').fadeIn(700);
+            $.ajax({
+            url:"/ldp/polls/get_poll.php",
+			cache: false,
+            data: ajax_data,
+            success:function(data){
+            $(".ldp--poll-results").html(data);
+            $(".ldp--poll-results").append('<a href="#" class="poll-back">Return To Poll</a>');
+            animateResults();
+            }
+            });
+            }
+            $(document).ready(function(){
+            
+            $(".results").click(function(){
+            get_results();
+            return false;
+            });
+            $(".ldp--poll-results").delegate(".poll-back","click",function(){
+            $('.ldp--poll-results').hide();
+            $('.ldp--poll-form').fadeIn(700);
+            
+            return false;
+            });
+            
+            });
+            
+            
+        </script>
+        
+        <script type="text/javascript">
+            $(document).ready(function(){
+            var form_data = $('#ldp-poll').serialize();
+            $("#ldp-poll").bind("submit", function() {
+            
+            $.ajax({
+            type  : "POST",
+            cache : false,
+			url  : "/ldp/modules/forms.php",
+            data  : $(this).serialize(),
+            complete: function(){},
+            success: function(data) {
+            $(".spanerror").removeClass("spanerror");$(".errmsg").html("").removeClass("errmsg");
+            var resultObj = jQuery.parseJSON(data);
+            var errC=/[faultcode]+\s:/;
+            var faultCode=errC.exec(resultObj.message);
+            if(resultObj.active == false){
+            if(!faultCode)
+            {
+            $("#status").removeClass("success");
+            $("#status").addClass("error");
+            var dataSet=resultObj.message+"<br/>";
+            $.each(resultObj.data, function(i,data){
+            var d = data.message;
+            highlightID="#"+data.name;
+            $(highlightID).addClass("spanerror");
+            $(highlightID).find("span").html(data.message).addClass("errmsg");
+            });
+            $("#status").html(dataSet);
+            } //err Code
+            else
+            {
+            var dataSet=resultObj.message+" "+resultObj.data;
+            $("#status").addClass("error");
+            $("#status").html(dataSet);
+            }
+            }
+            else{
+            $("#status").removeClass("error");
+            $("#status").addClass("success");
+            if(!poll){
+            $("#ldp-poll").remove();
+            $("#status").html(resultObj.message);
+            }
+            else{
+            get_results();
+            }
+            
+            }
+            
+            },
+            error: function(data){
+            
+            }
+            });
+            
+            return false;
+            });
+            
+            
+            });
+        </script>
+		</xsl:if>
+		<!-- End LDP JS -->			
 	</xsl:template>
 
 	<xsl:template name="search">
@@ -499,25 +678,6 @@ it displays the contents of 'sidenav.inc from its current directory
 			</xsl:if>	
 		</xsl:for-each-group>
 	</xsl:template>
-
-	<!-- campus tour on homepage -->
-	<xsl:template name="campustour">
-		<script src="http://www.sjsu.edu/sjsuhome/assets/js/jquery.colorbox-min.js" />
-        <script>
-            jQuery(document).ready(function () {
-                jQuery('.campusTourSlide').colorbox({ opacity:0.5 , rel:'tourLocations' });
-            });
-        </script>
-	</xsl:template>
-	
-	<xsl:template name="colorboxStrategicPlan">
-		<script src="http://www.sjsu.edu/sjsuhome/assets/js/jquery.colorbox-min.js" />
-        <script>
-            $(document).ready(function () {
-                $(".cbox-plan").colorbox({ opacity:0.5 , rel:'plan' });
-            });
-        </script>
-	</xsl:template>		
 	
 	<!-- Footer Includes (virtual) -->
 	<xsl:template name="footer">
@@ -530,6 +690,7 @@ it displays the contents of 'sidenav.inc from its current directory
 			<xsl:comment> /com.omniupdate.div </xsl:comment>
 		</xsl:if>
 		<div id="hidden"><xsl:comment> com.omniupdate.ob </xsl:comment><xsl:comment> /com.omniupdate.ob </xsl:comment></div>
+		<!-- the directedit.js replaces the "Last Published" href in footer.inc with the content in this hidden div -->
 	</xsl:template>
 
 	<xsl:template name="gacode">    

@@ -1,20 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ou="http://omniupdate.com/XSL/Variables" exclude-result-prefixes="ou">
+<!DOCTYPE xsl:stylesheet>
+<!--
+OU VARIABLES
+System-defined parameters
+Last Updated: 2013-08-26
+-->
+<xsl:stylesheet version="2.0" 
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:ou="http://omniupdate.com/XSL/Variables"
+    xmlns:fn="http://omniupdate.com/XSL/Functions"
+    xmlns:ouc="http://omniupdate.com/XSL/Variables"
+    exclude-result-prefixes="ou xsl xs fn ouc">
 
 <!-- Initialize OU Variables -->
 <xsl:param name="ou:action" />
-<xsl:param name="ou:dirname" /> 
-<xsl:param name="ou:filename" />
-<xsl:param name="ou:path" />
-<xsl:param name="ou:site" />
 <xsl:param name="ou:root" />
-<xsl:param name="ou:ftproot" />
+<xsl:param name="ou:site" />
+<xsl:param name="ou:path" />
+<!-- <xsl:param name="ou:dirname" /> -->
+<!-- dirname initialized below -->
+<xsl:param name="ou:filename"/>
+<xsl:param name="ou:username"/>
+<xsl:param name="ou:lastname"/>
+<xsl:param name="ou:firstname"/>
+<xsl:param name="ou:email"/>
+<xsl:param name="ou:httproot"/>
+<xsl:param name="ou:ftproot"/>
+<xsl:param name="ou:ftphome"/>
+<xsl:param name="ou:ftpdir"/>
+<xsl:param name="ou:created" as="xs:dateTime"/>
+<xsl:param name="ou:modified" as="xs:dateTime"/>
+<xsl:param name="ou:feed"/>
 
 <!-- user based OU variables -->
 <xsl:param name="ou:facebookAcc" />
 <xsl:param name="ou:twitterAcc" />
 <xsl:param name="ou:linkedinAcc" />
-<xsl:param name="ou:pinterestAcc" />
+<xsl:param name="ou:pinterestAcc" />		
 <xsl:param name="ou:rssAcc" />
 <xsl:param name="ou:subsite" />
 <xsl:param name="ou:enclosingunit" />

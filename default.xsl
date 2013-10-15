@@ -13,6 +13,9 @@ exclude-result-prefixes="ou xsl xs">
 	<xsl:import href="common.xsl" />
 	<xsl:import href="ou-variables.xsl" />
 
+	<xsl:include href="ouforms.xsl" />	
+	<xsl:include href="ougalleries.xsl" />
+	
 	<xsl:output method="html" version="5.0" cdata-section-elements="script"/>
 
 	<!-- Start Copy Mode -->
@@ -29,7 +32,7 @@ exclude-result-prefixes="ou xsl xs">
 		<xsl:value-of select="." disable-output-escaping="yes" />
 		<xsl:text disable-output-escaping="yes">?&gt;</xsl:text>
 	</xsl:template>
-	<!-- End Pocessing Instruction for Copy Mode -->
+	<!-- End Processing Instruction for Copy Mode -->
 
 
 	<!-- build the html output from the pcf-->
@@ -169,10 +172,10 @@ exclude-result-prefixes="ou xsl xs">
 											<xsl:call-template name="onecolumn" />
 										</xsl:when>
 										<xsl:when test="(document/config/parameter[@name='columns']/option[@value='1col']/@selected = 'true')">
-											<xsl:copy-of select="document/maincontent/column_two/node()" />
+											<xsl:apply-templates select="document/maincontent/column_two/node()" mode="copy" />
 										</xsl:when>
 										<xsl:otherwise>
-											<xsl:copy-of select="document/maincontent/column_one/node()" />
+											<xsl:apply-templates select="document/maincontent/column_one/node()" mode="copy" />
 										</xsl:otherwise>
 									</xsl:choose>
 								</div><!-- .left -->
@@ -182,16 +185,16 @@ exclude-result-prefixes="ou xsl xs">
 										<xsl:when test="(document/config/parameter[@name='columns']/option[@value='2col']/@selected = 'true')">
 											<!-- loads column_two for the 2col configuration-->
 											<div class="right">
-												<xsl:copy-of select="document/maincontent/column_two/node()" />
+												<xsl:apply-templates select="document/maincontent/column_two/node()" mode="copy" />
 											</div>
 										</xsl:when>
 										<xsl:otherwise>
 											<!-- loads column_two and column_three -->
 											<div class="middle">
-												<xsl:copy-of select="document/maincontent/column_two/node()" />
+												<xsl:apply-templates select="document/maincontent/column_two/node()" mode="copy"/>	
 											</div><!-- /.middle -->
 											<div class="right">
-												<xsl:copy-of select="document/maincontent/column_three/node()" />
+												<xsl:apply-templates select="document/maincontent/column_three/node()" mode="copy" />
 											</div><!-- /.right -->
 										</xsl:otherwise>
 									</xsl:choose>
@@ -207,12 +210,6 @@ exclude-result-prefixes="ou xsl xs">
 					</div><!-- /#container -->
 				</div><!-- /#bg -->
 				<xsl:call-template name="scripts" />
-				<xsl:if test="(document/config/parameter[@name='pagetype'] = 'home')">
-					<xsl:call-template name="campustour" />
-				</xsl:if>
-				<xsl:if test="document/colorbox">
-					<xsl:call-template name="colorboxStrategicPlan" />
-				</xsl:if>
 				<xsl:copy-of select="document/footcode/node()" />				
 			</body>
 		</html>
