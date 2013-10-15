@@ -312,7 +312,7 @@
 	<div class="ldp--poll-container clearfix">
             <div class="ldp--poll-form">
                 
-                <form id="ldp-poll" name="ldp-poll" method="post" class="ldp--forms">
+                <form id="ldp-poll" name="ldp-poll" method="post" class="ldp--poll">
                     <xsl:for-each select="//ouform/elements/element">
                          <xsl:if test="./@type = 'input-radio'">
                             
