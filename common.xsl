@@ -693,6 +693,16 @@ If there are child pages, it displays the contents of 'sidenav.inc from its curr
 		<!-- the directedit.js replaces the "Last Published" href in footer.inc with the content in this hidden div -->
 	</xsl:template>
 
+<xsl:template name="nonLDPGallery">
+<script src="/sjsuhome/assets/js/jquery.colorbox-min.js" />
+<script>
+	jQuery(document).ready(function () {
+		jQuery('.campusTourSlide').colorbox({ opacity:0.5 , rel:'tourLocations' }
+		jQuery('.cbox-plan').colorbox({ opacity:0.5 , rel:'plan' });
+	});
+</script>
+</xsl:template>
+
 	<xsl:template name="gacode">    
 		<xsl:if test="$ou:action = 'pub' or $ou:action = 'cmp'">			
 			<xsl:choose>

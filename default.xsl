@@ -210,6 +210,9 @@ exclude-result-prefixes="ou xsl xs">
 					</div><!-- /#container -->
 				</div><!-- /#bg -->
 				<xsl:call-template name="scripts" />
+				<xsl:if test="document/colorbox">
+					<xsl:call-template name="nonLDPGallery" />
+				</xsl:if>
 				<xsl:copy-of select="document/footcode/node()" />				
 			</body>
 		</html>
