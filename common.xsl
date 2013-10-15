@@ -89,6 +89,10 @@ exclude-result-prefixes="ou xsl xs">
 			</xsl:choose>
 		</xsl:variable>
 
+		<xsl:if test="/document/colorbox"><!-- support for non-LDP colorbox implementations -->
+			<link rel="stylesheet" href="/sjsuhome/assets/css/colorbox.css" media="screen" />
+		</xsl:if>
+
 		<xsl:if test="$galleryExists = 1">
 			<link rel="stylesheet" href="/sjsuhome/assets/css/colorbox.css" media="screen" />
 			<link rel="stylesheet" href="/sjsuhome/assets/css/ou--ldp--gallery.css" media="screen" />			
