@@ -701,8 +701,7 @@ If there are child pages, it displays the contents of 'sidenav.inc from its curr
 <script src="/sjsuhome/assets/js/jquery.colorbox-min.js" />
 <script>
 	jQuery(document).ready(function () {
-		jQuery('.campusTourSlide').colorbox({ opacity:0.5 , rel:'tourLocations' }
-		jQuery('.cbox-plan').colorbox({ opacity:0.5 , rel:'plan' });
+		jQuery('.colorboxSlide').colorbox({ opacity:0.5 , rel:'photoGallery' });
 	});
 </script>
 </xsl:template>
