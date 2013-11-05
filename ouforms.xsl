@@ -137,7 +137,7 @@
 									<xsl:when test="not(contains($adv,'dataset'))">
 										<xsl:for-each select="./options/option">
 											<label class="radio" for="{$field_name}_{./@value}">
-											<input type="radio" name="{$field_name}_{./@value}" value="{./@value}">
+											<input type="radio" name="{$field_name}" id="{$field_name}_{./@value}" value="{./@value}">
 												<xsl:if test="./@selected = 'true'">									
 													<xsl:attribute name="checked">checked</xsl:attribute>
 												</xsl:if>
@@ -149,7 +149,7 @@
 									<xsl:otherwise>
 										<xsl:for-each select="tokenize(ou:create-dataset($adv), ',')" >
 											<label class="radio" for="{$field_name}_{.}">
-											<input type="radio" name="{$field_name}_{.}" value="{.}">
+											<input type="radio" name="{$field_name}" id="{$field_name}_{.}" value="{.}">
 											</input><xsl:copy-of select="."/></label>
 										</xsl:for-each>	
 									</xsl:otherwise>
@@ -180,7 +180,7 @@
 									<xsl:when test="not(contains($adv,'dataset'))">
 										<xsl:for-each select="./options/option">
 											<label class="checkbox" for="{$field_name}_{./@value}">
-											<input type="checkbox" name="{$field_name}_{./@value}" value="{./@value}" >
+											<input type="checkbox" name="{$field_name}_{./@value}" id="{$field_name}_{./@value}" value="{./@value}" >
 												<xsl:if test="./@selected = 'true'">									
 													<xsl:attribute name="checked">checked</xsl:attribute>
 												</xsl:if>
@@ -192,7 +192,7 @@
 									<xsl:otherwise>
 										<xsl:for-each select="tokenize(ou:create-dataset($adv), ',')" >
 											<label class="checkbox" for="{$field_name}_{.}">
-											<input type="checkbox" name="{$field_name}_{.}" value="{.}">
+											<input type="checkbox" name="{$field_name}_{.}" id="{$field_name}_{.}" value="{.}">
 											</input>
 												<xsl:copy-of select="."/></label>
 										</xsl:for-each>	
