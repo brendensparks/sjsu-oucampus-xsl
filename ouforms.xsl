@@ -52,7 +52,7 @@
 						<xsl:if test="./@type = 'input-text'">
 							<xsl:choose>
 								<xsl:when test="contains(ou:get-adv($adv,'legend'),'true')">
-										<br /><span class="clearfix none">
+										<span class="clearfix none">
 										<xsl:if test="not(contains(ou:get-adv($adv,'addclass'),'false'))">
 											<xsl:attribute name="class">
 												<xsl:value-of select="ou:ldp-create-class($adv,'none')"/>
@@ -62,7 +62,7 @@
 									</span>
 								</xsl:when>
 								<xsl:otherwise>
-								<br />
+								
 									<span id="{./@name}" class="clearfix none">
 										<xsl:if test="not(contains(ou:get-adv($adv,'addclass'),'false'))">
 											<xsl:attribute name="class">
