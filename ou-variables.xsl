@@ -37,7 +37,9 @@ Last Updated: 2013-08-26
 <xsl:param name="ou:facebookAcc" />
 <xsl:param name="ou:twitterAcc" />
 <xsl:param name="ou:linkedinAcc" />
-<xsl:param name="ou:pinterestAcc" />		
+<xsl:param name="ou:pinterestAcc" />	
+<xsl:param name="ou:youtubeAcc" />	
+<xsl:param name="ou:googleplusAcc" />
 <xsl:param name="ou:rssAcc" />
 <xsl:param name="ou:subsite" />
 <xsl:param name="ou:enclosingunit" />

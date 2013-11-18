@@ -296,6 +296,8 @@ Builds the top Navigation based on the folders in the root of the site whose ind
 					<xsl:if test="$ou:twitterAcc != ''"><li class="qi smTw"><a href="{$ou:twitterAcc}" title="Twitter">Twitter</a></li></xsl:if>				
 					<xsl:if test="$ou:linkedinAcc != ''"><li class="qi smLi"><a href="{$ou:linkedinAcc}" title="Linked In">LinkedIn</a></li></xsl:if>								
 					<xsl:if test="$ou:pinterestAcc != ''"><li class="qi smPi"><a href="{$ou:pinterestAcc}" title="Pinterest">Pinterest</a></li></xsl:if>								
+					<xsl:if test="$ou:youtubeAcc != ''"><li class="qi smYt"><a href="{$ou:youtubeAcc}" title="YouTube">YouTube</a></li></xsl:if>								
+					<xsl:if test="$ou:googleplusAcc != ''"><li class="qi smGo"><a href="{$ou:googleplusAcc}" title="Google+">Google+</a></li></xsl:if>								
 					<xsl:if test="(document/config/parameter[@name='pagetype'] = 'home')">
 						<li class="qi smLi"><a href="http://www.linkedin.com/company/san-jose-state-university" title="LinkedIn">LinkedIn</a></li>
 						<li class="qi smPi"><a href="http://pinterest.com/sjsu/" title="Pinterest">Pinterest</a></li>
