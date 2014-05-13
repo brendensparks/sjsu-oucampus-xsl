@@ -289,7 +289,7 @@ Builds the top Navigation based on the folders in the root of the site whose ind
 	</xsl:template>
 
 	<xsl:template name="socialmedia">
-		<xsl:if test="($ou:facebookAcc != '') or ($ou:twitterAcc != '') or ($ou:rssAcc != '')">
+		<xsl:if test="($ou:facebookAcc != '') or ($ou:twitterAcc != '') or ($ou:linkedinAcc != '') or ($ou:pinterestAcc != '') or ($ou:youtubeAcc != '') or ($ou:googleplusAcc != '') or ($ou:instagramAcc != '') or ($ou:rssAcc != '')">
 			<div id="socialicons">
 				<ul>			
 					<xsl:if test="$ou:facebookAcc != ''"><li class="qi smFa" ><a href="{$ou:facebookAcc}" title="Facebook">Facebook</a></li></xsl:if>
@@ -297,12 +297,8 @@ Builds the top Navigation based on the folders in the root of the site whose ind
 					<xsl:if test="$ou:linkedinAcc != ''"><li class="qi smLi"><a href="{$ou:linkedinAcc}" title="Linked In">LinkedIn</a></li></xsl:if>								
 					<xsl:if test="$ou:pinterestAcc != ''"><li class="qi smPi"><a href="{$ou:pinterestAcc}" title="Pinterest">Pinterest</a></li></xsl:if>								
 					<xsl:if test="$ou:youtubeAcc != ''"><li class="qi smYt"><a href="{$ou:youtubeAcc}" title="YouTube">YouTube</a></li></xsl:if>								
-					<xsl:if test="$ou:googleplusAcc != ''"><li class="qi smGo"><a href="{$ou:googleplusAcc}" title="Google+">Google+</a></li></xsl:if>								
-					<xsl:if test="(document/config/parameter[@name='pagetype'] = 'home')">
-						<li class="qi smLi"><a href="http://www.linkedin.com/company/san-jose-state-university" title="LinkedIn">LinkedIn</a></li>
-						<li class="qi smPi"><a href="http://pinterest.com/sjsu/" title="Pinterest">Pinterest</a></li>
-						<li class="qi smYt"><a href="http://www.youtube.com/user/sjsu" title="YouTube">YouTube</a></li>
-					</xsl:if>
+					<xsl:if test="$ou:googleplusAcc != ''"><li class="qi smGo"><a href="{$ou:googleplusAcc}" title="Google+">Google+</a></li></xsl:if>
+					<xsl:if test="$ou:instagramAcc != ''"><li class="qi smIn"><a href="{$ou:instagramAcc}" title="Instagram">Instagram</a></li></xsl:if>
 					<xsl:if test="$ou:rssAcc != ''"><li class="qi smRS"><a href="{$ou:rssAcc}" title="RSS">RSS</a></li></xsl:if>
 				</ul>			
 			</div>	
@@ -577,14 +573,21 @@ If there are child pages, it displays the contents of 'sidenav.inc from its curr
 
 	<xsl:template name="search">
 		<!-- Begin Virtual Search Form Include -->
-		<xsl:if test="$ou:action = 'prv' or $ou:action = 'edt'">
-			<xsl:value-of select="unparsed-text('http://www.sjsu.edu/sjsuhome/includes/search.inc', 'utf-8')" disable-output-escaping="yes"/>
-		</xsl:if>
-		<xsl:if test="$ou:action = 'pub' or $ou:action = 'cmp'">
-			<xsl:comment> com.omniupdate.div label="search" </xsl:comment> 
-			<xsl:comment>#include virtual="/sjsuhome/includes/search.inc" </xsl:comment>
-			<xsl:comment> /com.omniupdate.div </xsl:comment>					
-		</xsl:if>
+		<xsl:choose>
+			<xsl:when test="document/config/parameter[@name='exception'] = '404'">
+				<span style="height:38px; display:block">&nbsp;</span>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:if test="$ou:action = 'prv' or $ou:action = 'edt'">
+					<xsl:value-of select="unparsed-text('http://www.sjsu.edu/sjsuhome/includes/search.inc', 'utf-8')" disable-output-escaping="yes"/>
+				</xsl:if>
+				<xsl:if test="$ou:action = 'pub' or $ou:action = 'cmp'">
+					<xsl:comment> com.omniupdate.div label="search" </xsl:comment> 
+					<xsl:comment>#include virtual="/sjsuhome/includes/search.inc" </xsl:comment>
+					<xsl:comment> /com.omniupdate.div </xsl:comment>					
+				</xsl:if>
+			</xsl:otherwise>
+		</xsl:choose>
 		<!-- End Virtual Search Form Include -->
 	</xsl:template>	
 

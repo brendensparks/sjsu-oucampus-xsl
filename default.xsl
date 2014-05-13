@@ -89,10 +89,11 @@ exclude-result-prefixes="ou xsl xs">
 									<xsl:attribute name="id" select="string('top_subsite')" />
 								</xsl:otherwise>									
 							</xsl:choose>
-							<div class="left">
+							<div class="left"><!-- brand identity -->
 								<xsl:choose>
 									<xsl:when test="(document/config/parameter[@name='pagetype'] = 'home') or (document/config/parameter[@name='pagetype'] = 'tophome') or (document/config/parameter[@name='pagetype'] = 'top-level_interior')">
 										<a href="http://www.sjsu.edu" class="btn_logo" title="San José State University"><h1>San José State University</h1></a>									
+										<span class="brand-tagline">Powering Silicon Valley</span>
 									</xsl:when>
 									<xsl:otherwise>
 										<a href="{$ou:sitepath}/"><h1 class="subsite_name"><xsl:value-of select="$ou:subsite"/></h1></a>
