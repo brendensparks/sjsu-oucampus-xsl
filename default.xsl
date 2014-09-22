@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE xsl:stylesheet SYSTEM "http://commons.omniupdate.com/dtd/standard.dtd">
+<!DOCTYPE xsl:stylesheet [
+<!ENTITY nbsp   "&#160;">
+<!ENTITY lsaquo   "&#8249;">
+<!ENTITY rsaquo   "&#8250;">
+<!ENTITY laquo  "&#171;">
+<!ENTITY raquo  "&#187;">
+<!ENTITY copy   "&#169;">
+]>
 <xsl:stylesheet version="2.0" 
 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 xmlns:xs="http://www.w3.org/2001/XMLSchema"
