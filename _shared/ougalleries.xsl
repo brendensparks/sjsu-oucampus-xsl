@@ -15,6 +15,13 @@ Transforms gallery asset XML into a dynamic gallery on the web page.
 Dependencies - see vars xsl
 $galleryType
 -->
+
+	<xsl:function name="ou:gallery-headcode">
+		<link rel="stylesheet" href="/_resources/css/colorbox.css" media="screen" />
+		<link rel="stylesheet" href="/_resources/css/ou--ldp--gallery.css" media="screen" />
+	</xsl:function>
+
+
 	<!-- The following template matches the LDP gallery nodes and outputs the proper HTML Code based on a specified parameter -->
 	<xsl:template match="gallery" mode="copy">
 		<xsl:variable name="galleryType" select="/document/config/parameter[@name='galleryType']/option[@selected='true']/@value" />

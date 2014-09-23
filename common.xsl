@@ -15,6 +15,7 @@
 	exclude-result-prefixes="xs ou ouc">
 
 <!-- filter column two entries by First letter and display in side bar-->
+
 	<xsl:template name="indexfilter">
 		<ul>
 			<xsl:for-each select="document/maincontent/column_two/h3[@class='doc_col_header']">
@@ -34,10 +35,21 @@
 			</xsl:for-each-group>
 		</ul>
 	</xsl:template>	
+<!--
+
+refactoring notes for indexfilter & formsindexfilter:
+there's got to be a better way of referencing this instead of by referring to the "column_two" node
+granted, these templates only ever have "column two", but it's still not ideal.
+next time maybe?
+
+-->
+
 
 <!-- The contents of the <head> element for every page -->
 	<xsl:template name="head">
-		<!-- Page Title -->
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+		<!-- <title> -->
 		<xsl:choose>
 			<xsl:when test="(document/config/parameter[@name='pagetype'] = 'tophome') or (document/config/parameter[@name='pagetype'] = 'home') or (document/config/parameter[@name='pagetype'] = 'subhome')">
 				<xsl:choose>
@@ -56,53 +68,52 @@
 				<title><xsl:value-of select="concat( ./document/title,' | ', $ou:subsite,' | San Jose State University')" /></title>
 			</xsl:otherwise>
 		</xsl:choose>
+		<!-- </title> -->
 		<!-- meta data -->
-		<xsl:copy-of select="document/metadata/node()" />
+		<xsl:for-each select="ouc:properties//meta">
+			<xsl:text>
+			</xsl:text>
+			<xsl:if test="string-length(./@content)>0">
+				<xsl:apply-templates select="." mode="copy" />
+			</xsl:if>
+		</xsl:for-each>
+
+		<!-- the social meta template adds extra metadata that makes pages cooperate better with social media -->
+		<xsl:call-template name="social-meta"/>
+
 		<!-- Begin Virtual Javascript Includes -->
 		<xsl:if test="$ou:action = 'prv' or $ou:action = 'edt'">
-			<xsl:value-of select="unparsed-text('http://www.sjsu.edu/sjsuhome/includes/js-top.inc', 'utf-8')" disable-output-escaping="yes"/>
+			<xsl:value-of select="unparsed-text('http://www.sjsu.edu/_resources/includes/js-top.inc', 'utf-8')" disable-output-escaping="yes"/>
 		</xsl:if>
 		<xsl:if test="$ou:action = 'pub' or $ou:action = 'cmp'">
 			<xsl:choose>
 				<xsl:when test="(document/config/parameter[@name='exception'] = '404')" >
-					<xsl:comment> com.omniupdate.div label="script1" </xsl:comment> 
-					<xsl:comment>#include virtual="/sjsuhome/includes/404-top-js.inc" </xsl:comment>
-					<xsl:comment> /com.omniupdate.div </xsl:comment>					
+					<xsl:comment>#include virtual="/_resources/includes/404-top-js.inc" </xsl:comment>				
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:comment> com.omniupdate.div label="script1" </xsl:comment> 
-					<xsl:comment>#include virtual="/sjsuhome/includes/js-top.inc" </xsl:comment>
-					<xsl:comment> /com.omniupdate.div </xsl:comment>
+					<xsl:comment>#include virtual="/_resources/includes/js-top.inc" </xsl:comment>
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:if>
 		<!-- End Virtual Javascript Includes -->
 		<!-- Begin Virtual CSS Includes -->
 		<xsl:if test="$ou:action = 'prv' or $ou:action = 'edt'">
-			<xsl:value-of select="unparsed-text('http://www.sjsu.edu/sjsuhome/includes/css.inc', 'utf-8')" disable-output-escaping="yes"/>
+			<xsl:value-of select="unparsed-text('http://www.sjsu.edu/_resources/includes/css.inc', 'utf-8')" disable-output-escaping="yes"/>
 		</xsl:if>
 		<xsl:if test="$ou:action = 'pub' or $ou:action = 'cmp'">
-			<xsl:comment> com.omniupdate.div label="css" </xsl:comment> 
-			<xsl:comment>#include virtual="/sjsuhome/includes/css.inc" </xsl:comment>
-			<xsl:comment> /com.omniupdate.div </xsl:comment>
+			<xsl:comment>#include virtual="/_resources/includes/css.inc" </xsl:comment>
 		</xsl:if>
 		<!-- End Virtual CSS Includes -->
-		<!-- Begin LDP  CSS -->			
-		<xsl:variable name="galleryExists">
-			<xsl:choose>
-				<xsl:when test="//gallery">1</xsl:when> 
-				<xsl:otherwise>0</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
+		
+		<!-- new LDP CSS insert code. it pushes the actual code off to a diff location to clean up common.xsl -->
+		<xsl:if test="//gallery">
+			<xsl:apply-templates select="ou:gallery-headcode" mode="copy"/>
+		</xsl:if>		
 
-		<xsl:if test="$galleryExists = 1">
-			<link rel="stylesheet" href="/sjsuhome/assets/css/colorbox.css" media="screen" />
-			<link rel="stylesheet" href="/sjsuhome/assets/css/ou--ldp--gallery.css" media="screen" />			
-		</xsl:if>
 
 		<xsl:if test="//ouform">
 
-			<link rel="stylesheet" href="/sjsuhome/assets/css/ou--bootstrap.css" media="screen" />
+			<link rel="stylesheet" href="/_resources/css/ou--bootstrap.css" media="screen" />
 
 			<xsl:variable name="addPollCSS">
 				<xsl:for-each select="//ouform/elements/element">
@@ -114,38 +125,37 @@
 
 			<xsl:choose>
 				<xsl:when test="$addPollCSS='yes'">
-					<link rel="stylesheet" href="/sjsuhome/assets/css/ou--ldp--polls.css" media="screen" />
+					<link rel="stylesheet" href="/_resources/css/ou--ldp--polls.css" media="screen" />
 				</xsl:when>	
 				<xsl:otherwise>
-					<link rel="stylesheet" href="/sjsuhome/assets/css/ou--ldp--forms.css" media="screen" />
+					<link rel="stylesheet" href="/_resources/css/ou--ldp--forms.css" media="screen" />
 				</xsl:otherwise>
 			</xsl:choose>	
 
 		</xsl:if>
 
 
-		<!-- End LDP  CSS -->
+		<!-- End LDP CSS -->
 
 		<!-- OTHER INCLUDE -->
 		<xsl:if test="($ou:externalinc != '')">
-			<xsl:choose>
-				<xsl:when test="$ou:action = 'prv' or $ou:action = 'edt'">
-					<xsl:value-of select="unparsed-text($ou:externalinc, 'utf-8')" disable-output-escaping="yes"/>
-				</xsl:when>
-				<xsl:when test="$ou:action = 'pub' or $ou:action = 'cmp'">
-					<xsl:value-of select="unparsed-text($ou:externalinc, 'utf-8')" disable-output-escaping="yes"/>					
-				<!-- Broken version:
-					<xsl:comment>#include virtual="<xsl:value-of select="$ou:externalinc"/>"</xsl:comment> -->
-				<!-- Fixed version, but doesn't use full externalinc value:
-					<xsl:comment>#include virtual="<xsl:value-of select="$ou:sitepath"/>/includes/siteinclude.inc" </xsl:comment> -->
-				</xsl:when>
-				<xsl:otherwise><!-- blank --></xsl:otherwise>
-			</xsl:choose>
+			<xsl:copy-of select="ouc:includeFile($ou:includeDir,'siteinclude.inc')"/>
 		</xsl:if>
 		<!-- /OTHER INCLUDE -->
 
-		<!-- headcode -->
-		<xsl:copy-of select="document/headcode/node()" />		
+		<!-- if there's anything in the pcf's <headcode> node, it gets added here -->
+		<xsl:apply-templates select="headcode/node()" mode="copy"/>
+
+		<!-- not sure how this page ID is used yet, but including it for later -->
+		<script type="text/javascript">
+			var page_id="<xsl:value-of select="concat(string-join(remove(tokenize(substring($ou:httproot, 1), '/'), count(tokenize(substring($ou:httproot, 1), '/'))), '/'),$ou:path)"/>";
+		</script>
+
+		<!-- good centralized declaration of 3LT CSS, in this case it's minor fixes and not actual 3LT-->
+		<xsl:if test="$ou:action = 'edt'">
+			<link rel="stylesheet" href="/_resources/css/ou-edit.css" />
+		</xsl:if>
+
 	</xsl:template>
 
 <!-- chooses to use either homenav, meganav, or primarynav based on pagetype and site settings -->
