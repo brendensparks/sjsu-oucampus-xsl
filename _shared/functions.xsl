@@ -35,7 +35,7 @@
 
 
     <!-- modified version of ou:includeFile -->
-    <xsl:function name="ou:includeFileHTML">
+    <xsl:function name="ou:includeFileSJSU">
         <xsl:param name="dirname" />    <!-- directory name -->
         <xsl:param name="filename" />   <!-- file name -->
         <xsl:variable name="fullpath" select="concat($dirname,if(substring($dirname,string-length($dirname)) != '/') then '/' else '',$filename)" />    <!-- combines the two, ensuring the syntax contains the proper slashes -->

@@ -14,6 +14,18 @@
 	xmlns:ouc="http://omniupdate.com/XSL/Variables"
 	exclude-result-prefixes="xs ou ouc">
 
+	<xsl:import href="_shared/ou-variables.xsl" />
+	<xsl:import href="_shared/vars.xsl" />
+	<xsl:import href="_shared/functions.xsl" />
+	<xsl:import href="_shared/template-matches.xsl" />
+	<xsl:import href="_shared/custom-buttons.xsl" />
+	<xsl:import href="_shared/ouforms.xsl" />	
+	<xsl:import href="_shared/ougalleries.xsl" />
+
+	<xsl:import href="_shared/navigation.xsl" />
+	<xsl:import href="_shared/breadcrumb.xsl" />
+	<xsl:import href="_shared/siteindex.xsl" />
+
 <!-- filter column two entries by First letter and display in side bar-->
 
 	<xsl:template name="indexfilter">
@@ -78,10 +90,25 @@ next time maybe?
 			</xsl:if>
 		</xsl:for-each>
 
-		<!-- the social meta template adds extra metadata that makes pages cooperate better with social media -->
-		<xsl:call-template name="social-meta"/>
+		<!-- the social meta template adds extra metadata that makes pages cooperate better with social media -->		
+		<!-- this relies on a lot of JS and markup that isn't currently in use at SJSU. Investigate & decide -->
+		<!-- <xsl:call-template name="social-meta"/> -->
 
 		<!-- Begin Virtual Javascript Includes -->
+
+		<!-- testing new include syntax -->
+
+			<xsl:choose>
+				<xsl:when test="(document/config/parameter[@name='exception'] = '404')" >
+					<xsl:copy-of select="ouc:includeFileSJSU($ou:includeDir,'404-js-top.inc')"/>			
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:copy-of select="ouc:includeFileSJSU($ou:includeDir,'js-top.inc')"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		
+<!-- old JS inc syntax
+
 		<xsl:if test="$ou:action = 'prv' or $ou:action = 'edt'">
 			<xsl:value-of select="unparsed-text('http://www.sjsu.edu/_resources/includes/js-top.inc', 'utf-8')" disable-output-escaping="yes"/>
 		</xsl:if>
@@ -95,14 +122,26 @@ next time maybe?
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:if>
+
+-->
+
 		<!-- End Virtual Javascript Includes -->
+
 		<!-- Begin Virtual CSS Includes -->
+
+		<xsl:copy-of select="ouc:includeFileSJSU($ou:includeDir,'css.inc')"/>
+
+<!-- old CSS inc syntax
+
 		<xsl:if test="$ou:action = 'prv' or $ou:action = 'edt'">
 			<xsl:value-of select="unparsed-text('http://www.sjsu.edu/_resources/includes/css.inc', 'utf-8')" disable-output-escaping="yes"/>
 		</xsl:if>
 		<xsl:if test="$ou:action = 'pub' or $ou:action = 'cmp'">
 			<xsl:comment>#include virtual="/_resources/includes/css.inc" </xsl:comment>
 		</xsl:if>
+
+-->
+
 		<!-- End Virtual CSS Includes -->
 		
 		<!-- new LDP CSS insert code. it pushes the actual code off to a diff location to clean up common.xsl -->

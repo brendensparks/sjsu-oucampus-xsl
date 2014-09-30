@@ -7,21 +7,17 @@
 <!ENTITY raquo  "&#187;">
 <!ENTITY copy   "&#169;">
 ]>
-<xsl:stylesheet version="2.0" 
-xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-xmlns:xs="http://www.w3.org/2001/XMLSchema"
-xmlns:ou="http://omniupdate.com/XSL/Variables"
-xmlns:ouc="http://omniupdate.com/XSL/Variables"
-exclude-result-prefixes="ou xsl xs">
+<xsl:stylesheet version="3.0" 
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:ou="http://omniupdate.com/XSL/Variables"
+	xmlns:ouc="http://omniupdate.com/XSL/Variables"
+	exclude-result-prefixes="ou xsl xs">
 
-	<xsl:import href="nivoslider.xsl" />
-	<xsl:import href="siteindex.xsl" />
-	<xsl:import href="breadcrumb.xsl" />
 	<xsl:import href="common.xsl" />
-	<xsl:import href="ou-variables.xsl" />
+	<xsl:import href="nivoslider.xsl" />
 
-	<xsl:include href="ouforms.xsl" />	
-	<xsl:include href="ougalleries.xsl" />
+
 	
 	<xsl:output method="html" version="5.0" cdata-section-elements="script"/>
 
