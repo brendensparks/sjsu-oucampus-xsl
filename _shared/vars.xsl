@@ -48,6 +48,15 @@
     <xsl:variable name="galleryType" select="ou:assignVariable('galleryType','PrettyPhoto')"/>	
     
     <!-- other variables -->
-    <xsl:param name="ou:includeDir">http://www.sjsu.edu/_resources/includes</xsl:param>
+    <xsl:param name="ou:includeDir">
+        <xsl:choose>
+            <xsl:when test="($ou:devSwitch = 'true')">
+                http://dev.sjsu.edu/_resources/includes
+            </xsl:when>
+            <xsl:otherwise>
+                http://www.sjsu.edu/_resources/includes
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:param>
     
 </xsl:stylesheet>
