@@ -737,11 +737,11 @@ If there are child pages, it displays the contents of 'sidenav.inc from its curr
 	<!-- Footer Includes (virtual) -->
 	<xsl:template name="footer">
 		<xsl:if test="$ou:action = 'prv' or $ou:action = 'edt'">
-			<xsl:value-of select="unparsed-text('http://www.sjsu.edu/sjsuhome/includes/2013-footer.inc', 'utf-8')" disable-output-escaping="yes"/>
+			<xsl:value-of select="unparsed-text('http://dev.sjsu.edu/_resources/includes/2013-footer.inc', 'utf-8')" disable-output-escaping="yes"/>
 		</xsl:if>
 		<xsl:if test="$ou:action = 'pub' or $ou:action = 'cmp'">
 			<xsl:comment> com.omniupdate.div label="footer" </xsl:comment> 
-			<xsl:comment>#include virtual="/sjsuhome/includes/2013-footer.inc" </xsl:comment>
+			<xsl:comment>#include virtual="/_resources/includes/2013-footer.inc" </xsl:comment>
 			<xsl:comment> /com.omniupdate.div </xsl:comment>
 		</xsl:if>
 		<div id="hidden"><xsl:comment> com.omniupdate.ob </xsl:comment><xsl:comment> /com.omniupdate.ob </xsl:comment></div>

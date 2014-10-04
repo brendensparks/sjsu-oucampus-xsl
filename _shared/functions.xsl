@@ -29,10 +29,14 @@
     
     <xsl:function name="ou:ssi">
         <xsl:param name="fullpath"/>
-        <!--	<xsl:comment>#include virtual="<xsl:value-of select="$fullpath" />" </xsl:comment>-->
-        <xsl:processing-instruction name="php"> include($_SERVER['DOCUMENT_ROOT'] . "<xsl:value-of select="$fullpath" />"); ?</xsl:processing-instruction>
+        <xsl:comment>#include virtual="<xsl:value-of select="$fullpath" />" </xsl:comment>
+        <!--<xsl:processing-instruction name="php"> include($_SERVER['DOCUMENT_ROOT'] . "<xsl:value-of select="$fullpath" />"); ?</xsl:processing-instruction> --> 
     </xsl:function>
 
+    <xsl:function name="ou:ssix">
+        <xsl:param name="fullpath"/>
+        <xsl:processing-instruction name="php"> include($_SERVER['DOCUMENT_ROOT'] . "<xsl:value-of select="$fullpath" />"); ?</xsl:processing-instruction> 
+    </xsl:function>
 
     <!-- modified version of ou:includeFile -->
     <xsl:function name="ou:includeFileSJSU">
@@ -42,21 +46,14 @@
         
         <xsl:choose><!-- on publish, it will output the proper SSI code, but on staging we require the omni div tag -->
             <xsl:when test="$ou:action = 'pub'">
-                <xsl:copy-of select="ou:ssihtml($fullpath)" />
+                <xsl:copy-of select="ou:ssi($fullpath)" />
             </xsl:when>
             <xsl:otherwise>
                 <ouc:div label="{$fullpath}" path="{$fullpath}" />
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
-    
-    <!-- modified version of ou:ssi -->
-    <xsl:function name="ou:ssihtml">
-        <xsl:param name="fullpath"/>
-        <!--    <xsl:comment>#include virtual="<xsl:value-of select="$fullpath" />" </xsl:comment>-->
-        <xsl:processing-instruction name="php"> include($_SERVER['DOCUMENT_ROOT'] . "<xsl:value-of select="$fullpath" />"); ?</xsl:processing-instruction>
-    </xsl:function>
-    
+
     <xsl:function name="ou:findPrevDir"> <!-- outputs parent directory path with trailing '/': /path/to/parent/ -->
         <xsl:param name="path" />
         <xsl:variable name="tokenPath" select="tokenize(substring($path, 2), '/')[if(substring($path,string-length($path)) = '/') then position() != last() else position()]" />
