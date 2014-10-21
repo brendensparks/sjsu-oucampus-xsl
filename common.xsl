@@ -213,9 +213,14 @@ next time maybe?
 		<xsl:otherwise>
 			<xsl:choose>
 				<xsl:when test="doc(concat($root, '/includes'))/list/file[. eq 'meganav.inc']">	
-					<xsl:comment> com.omniupdate.div label="topnav" path="/includes/meganav.inc"</xsl:comment> 
-					<xsl:comment>#include virtual="<xsl:value-of select="$ou:sitepath"/>/includes/meganav.inc" </xsl:comment>
-					<xsl:comment> /com.omniupdate.div </xsl:comment>
+					<xsl:if test="$ou:action = 'prv'">
+						<xsl:value-of select="unparsed-text(concat($ou:httproot,'/includes/meganav.inc'), 'utf-8')" disable-output-escaping="yes"/>
+					</xsl:if>
+					<xsl:if test="$ou:action = 'pub' or $ou:action = 'cmp' or $ou:action = 'edt'">
+						<xsl:comment> com.omniupdate.div label="topnav" path="/includes/meganav.inc"</xsl:comment> 
+						<xsl:comment>#include virtual="<xsl:value-of select="$ou:sitepath"/>/includes/meganav.inc" </xsl:comment>
+						<xsl:comment> /com.omniupdate.div </xsl:comment>
+					</xsl:if>
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:if test="$ou:action = 'prv' or $ou:action = 'edt'">
