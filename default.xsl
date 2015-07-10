@@ -59,7 +59,7 @@ exclude-result-prefixes="ou xsl xs">
 					</xsl:otherwise>	
 				</xsl:choose>
 <xsl:comment>googleoff: all</xsl:comment>
-				<div id="skip" class="acc"><a href="#skiptocontent">Skip to Main Content</a></div>
+				<div id="skip" class="acc"><a href="#content">Skip to Main Content</a></div>
 				<div id="bg">
 					<!-- emergency announcement page -->
 					<xsl:if test="$ou:action = 'prv' or $ou:action = 'edt'">
